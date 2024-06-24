@@ -3,56 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DVD Bouncing Logo</title>
+    <title>Bouncing DVD Logo</title>
     <style>
-        body {
+        body, html {
             margin: 0;
+            padding: 0;
             overflow: hidden;
-            background-color: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            background-color: white;
+            height: 100%;
+            width: 100%;
         }
-
-        #dvd-logo {
-            width: 100px;
+        #dvdLogo {
             position: absolute;
+            width: 100px;
+            height: 50px;
+            background-image: url('images/DVD_VIDEO_logo.png');
+            background-size: contain;
+            background-repeat: no-repeat;
         }
     </style>
 </head>
 <body>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/DVD_VIDEO_logo.png" id="dvd-logo" alt="DVD Logo">
+    <div id="dvdLogo"></div>
 
     <script>
-        const dvdLogo = document.getElementById('dvd-logo');
-        let x = Math.random() * window.innerWidth;
-        let y = Math.random() * window.innerHeight;
+        let dvdLogo = document.getElementById('dvdLogo');
+        let x = 0;
+        let y = 0;
         let dx = 2;
         let dy = 2;
+        let width = window.innerWidth;
+        let height = window.innerHeight;
 
-        function moveLogo() {
-            if (x + dvdLogo.clientWidth >= window.innerWidth || x <= 0) {
-                dx = -dx;
-                changeColor();
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
             }
-            if (y + dvdLogo.clientHeight >= window.innerHeight || y <= 0) {
-                dy = -dy;
-                changeColor();
-            }
+            return color;
+        }
 
+        function updatePosition() {
             x += dx;
             y += dy;
+
+            if (x + dvdLogo.clientWidth >= width || x <= 0) {
+                dx *= -1;
+                dvdLogo.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
+            }
+
+            if (y + dvdLogo.clientHeight >= height || y <= 0) {
+                dy *= -1;
+                dvdLogo.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
+            }
 
             dvdLogo.style.left = x + 'px';
             dvdLogo.style.top = y + 'px';
         }
 
-        function changeColor() {
-            dvdLogo.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
-        }
-
-        setInterval(moveLogo, 10);
+        setInterval(updatePosition, 10);
+        
+        window.onresize = () => {
+            width = window.innerWidth;
+            height = window.innerHeight;
+        };
     </script>
 </body>
 </html>
