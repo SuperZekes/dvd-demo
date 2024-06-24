@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DVD Bouncing Logo</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #dvd-logo {
+            width: 100px;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/DVD_VIDEO_logo.png" id="dvd-logo" alt="DVD Logo">
+
+    <script>
+        const dvdLogo = document.getElementById('dvd-logo');
+        let x = Math.random() * window.innerWidth;
+        let y = Math.random() * window.innerHeight;
+        let dx = 2;
+        let dy = 2;
+
+        function moveLogo() {
+            if (x + dvdLogo.clientWidth >= window.innerWidth || x <= 0) {
+                dx = -dx;
+                changeColor();
+            }
+            if (y + dvdLogo.clientHeight >= window.innerHeight || y <= 0) {
+                dy = -dy;
+                changeColor();
+            }
+
+            x += dx;
+            y += dy;
+
+            dvdLogo.style.left = x + 'px';
+            dvdLogo.style.top = y + 'px';
+        }
+
+        function changeColor() {
+            dvdLogo.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
+        }
+
+        setInterval(moveLogo, 10);
+    </script>
+</body>
+</html>
